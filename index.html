@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creador de Stickers Profesionales - Robot Club</title>
+    <title>Creador de Stickers Profesionales</title>
     <style>
-        /* TEMA OSCURO PROFESIONAL (Basado en la estética de la app) */
+        /* TEMA OSCURO PROFESIONAL */
         body {
-            background-color: #121212; /* Fondo oscuro profesional */
+            background-color: #121212;
             color: #e0e0e0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
@@ -15,18 +15,20 @@
             align-items: center;
             padding: 20px;
             margin: 0;
+            min-height: 100vh;
         }
 
         .container {
-            background: #1e1e1e; /* Contenedor oscuro */
-            padding: 30px;
+            background: #1e1e1e;
+            padding: 30px 20px;
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.6);
             text-align: center;
             max-width: 500px;
             width: 100%;
             border: 1px solid #333;
-            margin-top: 50px;
+            margin-top: 20px;
+            box-sizing: border-box;
         }
 
         h2 {
@@ -43,19 +45,19 @@
         }
 
         /* ÁREA DE DISEÑO DE STICKER (El Cuadrado Blanco) */
-        /* Este div se parece *exactamente* a los stickers de la imagen */
         #area-sticker {
-            width: 300px; /* Tamaño manejable para diseñar */
+            width: 300px;
             height: 300px;
-            background-color: #ffffff; /* Blanco puro */
-            color: #000000; /* Texto negro simple */
-            border: 1px solid #e7e7e7; /* Borde muy fino y claro */
-            border-radius: 15px; /* Redondeado como en la imagen */
+            max-width: 100%; /* Para que no se salga en celulares muy chicos */
+            background-color: #ffffff;
+            color: #000000;
+            border: 1px solid #e7e7e7;
+            border-radius: 15px;
             margin: 0 auto;
             display: flex;
-            align-items: center; /* Centrado vertical */
-            justify-content: center; /* Centrado horizontal */
-            padding: 30px; /* Espaciado interno para que el texto no toque bordes */
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
             box-sizing: border-box;
             position: relative;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -68,17 +70,18 @@
             border: none;
             outline: none;
             resize: none;
-            font-size: 28px; /* Tamaño de fuente grande y claro */
-            text-align: center; /* Texto centrado horizontalmente */
-            font-family: sans-serif; /* Fuente simple y limpia, como en la imagen */
+            font-size: 28px;
+            text-align: center;
+            font-family: sans-serif;
             background: transparent;
             overflow-y: auto;
             word-wrap: break-word;
-            white-space: pre-wrap; /* Respetar saltos de línea y espacios */
-            line-height: 1.4; /* Espaciado entre líneas cómodo */
+            white-space: pre-wrap;
+            line-height: 1.4;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-direction: column;
         }
 
         /* Controles y Botones Profesionales */
@@ -99,16 +102,17 @@
             transition: all 0.2s ease;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            width: 100%;
         }
 
-        /* Botón de Bajar Renglón, secundario y gris */
+        /* Botón de Bajar Renglón */
         .btn-bajar {
             background-color: #3a3a3a;
             color: #e0e0e0;
             border: 1px solid #4a4a4a;
         }
 
-        /* Botón Descargar, primario y profesional */
+        /* Botón Descargar */
         .btn-descargar {
             background-color: #007bff;
             color: white;
@@ -131,7 +135,7 @@
             line-height: 1.5;
         }
         
-        /* Canvas oculto para generar la imagen PNG */
+        /* Canvas oculto */
         canvas { display: none; }
     </style>
 </head>
@@ -143,7 +147,7 @@
         
         <div id="area-sticker">
             <div id="texto-sticker" contenteditable="true" spellcheck="false">Toca aquí para escribir...</div>
-        }
+        </div> 
 
         <div class="controls">
             <button class="btn-bajar" onclick="bajarRenglon()">⬇️ Bajar Renglón</button>
@@ -161,22 +165,20 @@
     <script>
         const editor = document.getElementById('texto-sticker');
 
-        // FUNCIÓN PARA BAJAR RENGLÓN (Funciona perfectamente)
+        // FUNCIÓN PARA BAJAR RENGLÓN
         function bajarRenglon() {
             editor.focus();
-            // Usamos execCommand para insertar un salto de línea visible y claro
             document.execCommand('insertHTML', false, '<br><br>');
         }
 
-        // FUNCIÓN PARA EXPORTAR PNG TRANSPARENTE DE 512x512
+        // FUNCIÓN PARA EXPORTAR PNG TRANSPARENTE
         function exportarImagen() {
             const canvas = document.getElementById('canvas-sticker');
             const ctx = canvas.getContext('2d');
 
-            // 1. Limpiar el canvas (hacerlo transparente)
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 2. Dibujar el rectángulo blanco redondeado (como el sticker)
+            // Dibujar el fondo blanco redondeado
             const radius = 25;
             const xRect = 20, yRect = 20;
             const wRect = canvas.width - 40;
@@ -196,18 +198,15 @@
             ctx.closePath();
             ctx.fill();
 
-            // 3. Dibujar el texto centrado, gestionando líneas múltiples
-            ctx.fillStyle = "#000000"; // Texto negro simple
-            ctx.font = "bold 44px sans-serif"; // Fuente simple y clara
+            // Dibujar el texto
+            ctx.fillStyle = "#000000";
+            ctx.font = "bold 44px sans-serif";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
 
-            // Obtener el texto del div y dividirlo por líneas
             const lineas = editor.innerText.trim().split('\n');
             const xText = canvas.width / 2;
-            
-            // Calcular altura total del texto para centrarlo
-            const lineHeight = 55; // Espaciado entre líneas en el canvas
+            const lineHeight = 55;
             const totalTextHeight = lineas.length * lineHeight;
             let yText = (canvas.height / 2) - (totalTextHeight / 2) + (lineHeight / 2);
 
@@ -216,14 +215,14 @@
                 yText += lineHeight;
             });
 
-            // 4. Descargar la imagen
+            // Descargar
             const link = document.createElement('a');
             link.download = 'mi-sticker-profesional.png';
             link.href = canvas.toDataURL("image/png");
             link.click();
         }
 
-        // Limpiar el texto inicial al hacer el primer click
+        // Limpiar el texto inicial
         editor.addEventListener('focus', function() {
             if (this.innerText === "Toca aquí para escribir...") {
                 this.innerText = "";
