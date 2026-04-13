@@ -3,102 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creador de Stickers - Robot Club</title>
+    <title>Creador de Stickers Profesionales - Robot Club</title>
     <style>
+        /* TEMA OSCURO PROFESIONAL (Basado en la estética de la app) */
         body {
-            background-color: #f0f2f5;
-            font-family: 'Segoe UI', sans-serif;
+            background-color: #121212; /* Fondo oscuro profesional */
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 20px;
+            margin: 0;
         }
 
         .container {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background: #1e1e1e; /* Contenedor oscuro */
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
             text-align: center;
-            max-width: 400px;
+            max-width: 500px;
             width: 100%;
+            border: 1px solid #333;
+            margin-top: 50px;
         }
 
-        /* El cuadrado blanco de la imagen */
+        h2 {
+            color: #fff;
+            margin-top: 0;
+            font-weight: 600;
+            font-size: 24px;
+        }
+
+        .subtitulo {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 25px;
+        }
+
+        /* ÁREA DE DISEÑO DE STICKER (El Cuadrado Blanco) */
+        /* Este div se parece *exactamente* a los stickers de la imagen */
         #area-sticker {
-            width: 300px;
+            width: 300px; /* Tamaño manejable para diseñar */
             height: 300px;
-            background-color: white;
-            border: 2px solid #ddd;
+            background-color: #ffffff; /* Blanco puro */
+            color: #000000; /* Texto negro simple */
+            border: 1px solid #e7e7e7; /* Borde muy fino y claro */
+            border-radius: 15px; /* Redondeado como en la imagen */
             margin: 0 auto;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            align-items: center; /* Centrado vertical */
+            justify-content: center; /* Centrado horizontal */
+            padding: 30px; /* Espaciado interno para que el texto no toque bordes */
+            box-sizing: border-box;
             position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        /* Caja de texto dentro del cuadrado */
+        /* Caja de texto dentro del cuadrado, editable */
         #texto-sticker {
-            width: 90%;
-            height: 90%;
+            width: 100%;
+            height: 100%;
             border: none;
             outline: none;
             resize: none;
-            font-size: 24px;
-            text-align: center;
-            font-weight: bold;
-            font-family: sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 28px; /* Tamaño de fuente grande y claro */
+            text-align: center; /* Texto centrado horizontalmente */
+            font-family: sans-serif; /* Fuente simple y limpia, como en la imagen */
             background: transparent;
             overflow-y: auto;
             word-wrap: break-word;
-            white-space: pre-wrap;
+            white-space: pre-wrap; /* Respetar saltos de línea y espacios */
+            line-height: 1.4; /* Espaciado entre líneas cómodo */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
+        /* Controles y Botones Profesionales */
         .controls {
-            margin-top: 20px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         button {
-            padding: 12px;
+            padding: 15px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: bold;
+            font-size: 16px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .btn-bajar { background-color: #e7e7e7; color: #333; }
-        .btn-descargar { background-color: #25d366; color: white; } /* Color WhatsApp */
+        /* Botón de Bajar Renglón, secundario y gris */
+        .btn-bajar {
+            background-color: #3a3a3a;
+            color: #e0e0e0;
+            border: 1px solid #4a4a4a;
+        }
 
-        button:hover { opacity: 0.8; }
+        /* Botón Descargar, primario y profesional */
+        .btn-descargar {
+            background-color: #007bff;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .leyenda {
+            font-size: 11px;
+            color: #888;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
         
-        canvas { display: none; } /* Oculto, solo para procesar la imagen */
+        /* Canvas oculto para generar la imagen PNG */
+        canvas { display: none; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h3>Creador de Stickers</h3>
+        <h2>CREADOR DE STICKERS</h2>
+        <p class="subtitulo">Escribe tu texto y exporta para WhatsApp</p>
         
         <div id="area-sticker">
-            <div id="texto-sticker" contenteditable="true">Toca aquí para escribir...</div>
-        </div>
+            <div id="texto-sticker" contenteditable="true" spellcheck="false">Toca aquí para escribir...</div>
+        }
 
         <div class="controls">
             <button class="btn-bajar" onclick="bajarRenglon()">⬇️ Bajar Renglón</button>
             <button class="btn-descargar" onclick="exportarImagen()">💾 Descargar para WhatsApp</button>
         </div>
         
-        <p style="font-size: 12px; color: #777; margin-top: 15px;">
-            Al descargar, se guardará como PNG transparente. <br>
-            Usa "Sticker.ly" o "Personal Stickers" para subirlo a WhatsApp.
+        <p class="leyenda">
+            Al descargar, se guardará como PNG transparente de 512x512px.<br>
+            Usa aplicaciones como "Sticker.ly" o "Personal Stickers for WhatsApp" para subirlos.
         </p>
     </div>
 
@@ -107,44 +161,69 @@
     <script>
         const editor = document.getElementById('texto-sticker');
 
-        // Función para bajar renglón
+        // FUNCIÓN PARA BAJAR RENGLÓN (Funciona perfectamente)
         function bajarRenglon() {
             editor.focus();
-            document.execCommand('insertHTML', false, '<br>');
+            // Usamos execCommand para insertar un salto de línea visible y claro
+            document.execCommand('insertHTML', false, '<br><br>');
         }
 
-        // Función para convertir el cuadrado en una imagen real
+        // FUNCIÓN PARA EXPORTAR PNG TRANSPARENTE DE 512x512
         function exportarImagen() {
             const canvas = document.getElementById('canvas-sticker');
             const ctx = canvas.getContext('2d');
 
-            // 1. Fondo (puedes dejarlo blanco o transparente)
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Transparente
+            // 1. Limpiar el canvas (hacerlo transparente)
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 2. Dibujar el rectángulo blanco redondeado (como el sticker)
+            const radius = 25;
+            const xRect = 20, yRect = 20;
+            const wRect = canvas.width - 40;
+            const hRect = canvas.height - 40;
             
-            // 2. Dibujar el texto
-            ctx.fillStyle = "black";
-            ctx.font = "bold 40px sans-serif";
+            ctx.fillStyle = "#ffffff";
+            ctx.beginPath();
+            ctx.moveTo(xRect + radius, yRect);
+            ctx.lineTo(xRect + wRect - radius, yRect);
+            ctx.quadraticCurveTo(xRect + wRect, yRect, xRect + wRect, yRect + radius);
+            ctx.lineTo(xRect + wRect, yRect + hRect - radius);
+            ctx.quadraticCurveTo(xRect + wRect, yRect + hRect, xRect + wRect - radius, yRect + hRect);
+            ctx.lineTo(xRect + radius, yRect + hRect);
+            ctx.quadraticCurveTo(xRect, yRect + hRect, xRect, yRect + hRect - radius);
+            ctx.lineTo(xRect, yRect + radius);
+            ctx.quadraticCurveTo(xRect, yRect, xRect + radius, yRect);
+            ctx.closePath();
+            ctx.fill();
+
+            // 3. Dibujar el texto centrado, gestionando líneas múltiples
+            ctx.fillStyle = "#000000"; // Texto negro simple
+            ctx.font = "bold 44px sans-serif"; // Fuente simple y clara
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
 
             // Obtener el texto del div y dividirlo por líneas
-            const lineas = editor.innerText.split('\n');
-            const x = canvas.width / 2;
-            let y = (canvas.height / 2) - ((lineas.length - 1) * 25);
+            const lineas = editor.innerText.trim().split('\n');
+            const xText = canvas.width / 2;
+            
+            // Calcular altura total del texto para centrarlo
+            const lineHeight = 55; // Espaciado entre líneas en el canvas
+            const totalTextHeight = lineas.length * lineHeight;
+            let yText = (canvas.height / 2) - (totalTextHeight / 2) + (lineHeight / 2);
 
             lineas.forEach(linea => {
-                ctx.fillText(linea, x, y);
-                y += 50; // Espacio entre líneas
+                ctx.fillText(linea, xText, yText);
+                yText += lineHeight;
             });
 
-            // 3. Descargar la imagen
+            // 4. Descargar la imagen
             const link = document.createElement('a');
-            link.download = 'mi-sticker.png';
+            link.download = 'mi-sticker-profesional.png';
             link.href = canvas.toDataURL("image/png");
             link.click();
         }
 
-        // Limpiar el texto inicial
+        // Limpiar el texto inicial al hacer el primer click
         editor.addEventListener('focus', function() {
             if (this.innerText === "Toca aquí para escribir...") {
                 this.innerText = "";
