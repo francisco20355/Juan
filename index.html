@@ -206,7 +206,7 @@
     const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlldW1kamtpamppamtkd2N4aHhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDQ4MzMsImV4cCI6MjA5MTY4MDgzM30.Cl2HUbxGV5eFut9VQ3-Fx0WtT6oJpx4F_AOfGJ4pdl0";
     const _supabase = supabase.createClient(SB_URL, SB_KEY);
 
-    // --- NUEVAS PREGUNTAS GENERALES Y VARIADAS ---
+    // --- SET DE 30 PREGUNTAS: VARIADAS, DIVERTIDAS Y PRECISAS ---
     const preguntas = [
         { t: "¿Qué plan suena mejor para un sábado de noche?", o: [{t:"Jugar online o scrollear en TikTok", m:13}, {t:"Juntarme a comer pizza con amigos", m:25}, {t:"Quedarme dormido en el sillón a las 22:00", m:65}] },
         { t: "¿Qué decís cuando algo está muy bueno?", o: [{t:"«Está god» o «Es cine»", m:12}, {t:"«Está tremendo» o «Demás»", m:28}, {t:"«Qué bárbaro» o «Macanudo»", m:70}] },
@@ -217,7 +217,29 @@
         { t: "¿En qué etapa de los estudios/trabajo estás enfocado?", o: [{t:"Terminando primaria o pensando en la UTU", m:11}, {t:"Trabajando o en la facultad", m:30}, {t:"Ya quiero jubilarme, no doy más", m:60}] },
         { t: "¿Cómo te movés por la ciudad o tu barrio?", o: [{t:"En bici, skate o caminando", m:14}, {t:"Me tomo un ómnibus / Uber", m:28}, {t:"Manejando tranquilo con la radio puesta", m:55}] },
         { t: "¿Cómo escuchás música normalmente?", o: [{t:"Spotify en el celu con auriculares", m:16}, {t:"En un parlante bluetooth o en el auto", m:35}, {t:"Radio AM/FM o discos físicos", m:70}] },
-        { t: "¿A qué hora te dormís un día de semana?", o: [{t:"A las 2 AM porque me cuelgo en la pantalla", m:14}, {t:"A las 23:00 después de una serie", m:30}, {t:"A las 21:00 ya estoy roncando", m:75}] }
+        { t: "¿A qué hora te dormís un día de semana?", o: [{t:"A las 2 AM porque me cuelgo en la pantalla", m:14}, {t:"A las 23:00 después de una serie", m:30}, {t:"A las 21:00 ya estoy roncando", m:75}] },
+        { t: "¿Qué hacés si te duele la espalda o la rodilla?", o: [{t:"¿Dolor? No sé qué es eso", m:12}, {t:"Me tomo un Ibuprofeno y sigo", m:30}, {t:"Busco un almohadón y comento el clima", m:68}] },
+        { t: "¿Cuál es tu relación con los grupos de WhatsApp?", o: [{t:"Hablo por stickers y audios cortos", m:14}, {t:"Mando memes y organizo el asado", m:32}, {t:"Mando bendiciones y videos de 'Buen día'", m:72}] },
+        { t: "¿Qué hacés cuando ves un perro en la calle?", o: [{t:"Le hago un video para una Story", m:15}, {t:"Le silbo y le digo '¿Qué hacés, fiera?'", m:35}, {t:"Le pregunto de quién es y si tiene hambre", m:65}] },
+        { t: "¿Cómo guardás el arroz o los fideos que sobraron?", o: [{t:"Los dejo en la olla hasta mañana", m:17}, {t:"En un tupper bien cerrado", m:35}, {t:"En un pote de helado reciclado", m:70}] },
+        { t: "¿Qué tanto usás el buscador de Google?", o: [{t:"Busco hasta cómo se escribe 'hola'", m:13}, {t:"Para cosas del laburo o tutoriales", m:30}, {t:"Escribo la URL completa con www y .com", m:65}] },
+        { t: "¿Qué hacés si te llama un número desconocido?", o: [{t:"No atiendo ni loco, que manden WhatsApp", m:15}, {t:"Atiendo por si es algo importante", m:35}, {t:"Atiendo y me quedo hablando con el vendedor", m:70}] },
+        { t: "¿Qué pensás de los Reels o TikToks?", o: [{t:"Son mi vida, puedo estar 5 horas", m:12}, {t:"Miro algunos para pasar el rato", m:30}, {t:"No entiendo por qué bailan tanto", m:68}] },
+        { t: "¿Cómo reaccionás ante un meme nuevo?", o: [{t:"Lo uso hasta que muera el mismo día", m:13}, {t:"Se lo mando a mis amigos por mensaje", m:35}, {t:"Pregunto '¿Quién es este muchacho?'", m:75}] },
+        { t: "¿Qué llevás siempre en los bolsillos/mochila?", o: [{t:"El celu y los auriculares", m:14}, {t:"Llaves, billetera y un cargador", m:30}, {t:"Caramelos, pañuelos y algún recibo viejo", m:65}] },
+        { t: "¿Cómo te despedís de alguien por mensaje?", o: [{t:"'Chau', 'Nos vemo' o un emoji", m:13}, {t:"'Un abrazo grande, hablamos'", m:35}, {t:"'Saludos a la familia y cuidate mucho'", m:70}] },
+
+        // --- ÚLTIMA TANDA DE PREGUNTAS (NUEVAS) ---
+        { t: "¿Qué hacés si ves que algo está desordenado en tu casa?", o: [{t:"Lo ignoro, ya lo limpiará alguien", m:12}, {t:"Lo ordeno cuando tengo tiempo", m:30}, {t:"No puedo seguir viviendo si no lo limpio YA", m:60}] },
+        { t: "¿Cuál es tu opinión sobre el volumen de la tele/música?", o: [{t:"Al máximo, quiero sentir el bajo", m:15}, {t:"Normal, que se escuche bien", m:30}, {t:"¡Bajá eso que no me deja pensar!", m:75}] },
+        { t: "¿Qué hacés cuando vas a un restaurante?", o: [{t:"Le saco foto al plato antes de probarlo", m:14}, {t:"Miro el precio y pido lo que me gusta", m:35}, {t:"Pido lo de siempre y me quejo del aire", m:65}] },
+        { t: "¿Cómo sabés qué ropa ponerte hoy?", o: [{t:"Uso lo que esté arriba de la silla", m:16}, {t:"Busco algo que combine y esté a la moda", m:28}, {t:"Miro el pronóstico en la tele/diario", m:70}] },
+        { t: "¿Qué sentís cuando escuchás un ruido raro en el auto/casa?", o: [{t:"Subo la música para no escucharlo", m:18}, {t:"Me fijo qué puede ser o busco en YouTube", m:32}, {t:"Llamo al técnico/mecánico de confianza", m:65}] },
+        { t: "¿Cómo guardás tus fotos?", o: [{t:"Están todas en la nube (iCloud/Google)", m:15}, {t:"En carpetas en la computadora", m:35}, {t:"Tengo álbumes físicos o las imprimo", m:75}] },
+        { t: "¿Qué hacés si un aparato tecnológico no funciona?", o: [{t:"Le doy un golpe o lo tiro por ahí", m:14}, {t:"Busco el error en Google o Reddit", m:28}, {t:"Llamo a mi sobrino o a un hijo", m:70}] },
+        { t: "¿Cuál es tu actitud en una fiesta o boliche?", o: [{t:"Lo doy todo en la pista hasta las 6 AM", m:16}, {t:"Bailo un poco y charlo en la barra", m:32}, {t:"Busco una silla y pregunto a qué hora comen", m:72}] },
+        { t: "¿Qué hacés con los cables viejos o cajas de cartón?", o: [{t:"Los tiro apenas dejo de usarlos", m:20}, {t:"Tiro algunos, otros los pierdo", m:35}, {t:"Los guardo 'por las dudas', algún día sirven", m:68}] },
+        { t: "¿Qué tal te llevás con el sol?", o: [{t:"Me encanta estar horas bronceándome", m:15}, {t:"Uso protector y trato de no quemarme", m:30}, {t:"Busco la sombra como si fuera un refugio", m:65}] }
     ];
 
     let actual = 0, score = 0, nombreUsuario = "", bloqueado = false;
