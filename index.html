@@ -34,7 +34,6 @@
             overflow-x: hidden;
         }
 
-        /* Animaciones Dinámicas */
         .modo-disco { animation: fiesta 1.5s infinite; }
         @keyframes fiesta { 
             0% { background: #4c1d95; } 
@@ -72,8 +71,6 @@
             font-weight: 900;
         }
 
-        p { opacity: 0.8; line-height: 1.5; }
-
         input {
             width: 100%;
             padding: 18px;
@@ -86,7 +83,6 @@
             margin-bottom: 25px;
             outline: none;
         }
-        input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2); }
 
         .btn {
             background: var(--primary);
@@ -106,51 +102,25 @@
         .btn:hover:not(:disabled) { 
             transform: translateY(-3px) scale(1.02); 
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            filter: brightness(1.1);
         }
-        .btn:active { transform: translateY(0); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .opcion { 
             text-align: left; 
             background: rgba(255,255,255,0.07); 
-            font-weight: 500;
-            border: 1px solid rgba(255,255,255,0.05);
-            text-transform: none; /* Para que las opciones no estén en mayúsculas */
+            text-transform: none;
         }
-        .opcion:hover { background: rgba(255,255,255,0.15); border-color: var(--primary); }
 
-        /* Barra de Progreso */
         .progreso-container { width: 100%; height: 8px; background: #334155; border-radius: 10px; margin-bottom: 30px; }
-        #progreso-fill { height: 100%; width: 0%; background: var(--primary); border-radius: 10px; box-shadow: 0 0 15px var(--primary); }
+        #progreso-fill { height: 100%; width: 0%; background: var(--primary); border-radius: 10px; }
 
-        /* Resultados */
-        .numero-final { font-size: 6rem; font-weight: 900; color: var(--primary); line-height: 1; margin: 20px 0; display: block; }
-        .arquetipo { 
-            background: var(--accent); 
-            color: #000; 
-            padding: 8px 20px; 
-            border-radius: 50px; 
-            font-weight: 800; 
-            font-size: 1rem;
-            display: inline-block;
-            margin-bottom: 15px;
-        }
+        .numero-final { font-size: 6rem; font-weight: 900; color: var(--primary); line-height: 1; margin: 20px 0; }
+        .arquetipo { background: var(--accent); color: #000; padding: 8px 20px; border-radius: 50px; font-weight: 800; display: inline-block; }
 
-        /* Tabla de Ranking */
-        .ranking-box { 
-            margin-top: 30px; 
-            background: rgba(0,0,0,0.4); 
-            border-radius: 20px; 
-            padding: 20px; 
-            font-size: 0.95rem;
-        }
+        .ranking-box { margin-top: 30px; background: rgba(0,0,0,0.4); border-radius: 20px; padding: 20px; }
         table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; opacity: 0.5; padding-bottom: 10px; }
         td { padding: 12px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .rank-pos { color: var(--accent); font-weight: bold; margin-right: 8px; }
+        .rank-pos { color: var(--accent); font-weight: bold; }
 
-        /* Spinner */
         .loader {
             width: 48px; height: 48px; border: 5px solid #FFF; border-bottom-color: var(--primary);
             border-radius: 50%; display: inline-block; animation: rotation 1s linear infinite;
@@ -163,50 +133,48 @@
 <div id="app">
     <div id="pantalla-inicio">
         <h1>🕵️‍♂️ DETECTOR 2.0</h1>
-        <p>¿Qué tan vieja es tu alma? Respondé estas preguntas y descubrí tu verdadera edad mental.</p>
-        <input type="text" id="input-nombre" placeholder="Ingresá tu nombre o apodo..." maxlength="15">
+        <p>Descubrí tu verdadera edad mental analizando tu consumo cultural y hábitos.</p>
+        <input type="text" id="input-nombre" placeholder="Tu nombre o apodo..." maxlength="15">
         <button class="btn" onclick="iniciarTest()">EMPEZAR ESCANEO</button>
+        <button class="btn" style="background: transparent; border: 2px solid var(--primary); color: var(--primary);" onclick="verRankingDirecto()">🏆 VER RANKING</button>
     </div>
 
     <div id="pantalla-quiz" class="hidden">
         <div class="progreso-container"><div id="progreso-fill"></div></div>
-        <p id="pregunta-contador" style="font-weight: bold; font-size: 0.85rem; color: var(--primary);"></p>
-        <h2 id="pregunta-titulo" style="min-height: 90px; font-size: 1.4rem;"></h2>
+        <p id="pregunta-contador" style="color: var(--primary); font-weight: bold;"></p>
+        <h2 id="pregunta-titulo" style="min-height: 90px;"></h2>
         <div id="opciones-contenedor"></div>
     </div>
 
     <div id="pantalla-carga" class="hidden">
         <span class="loader"></span>
-        <h2 style="margin-top: 20px;">Analizando respuestas...</h2>
-        <p>Conectando con la base de datos de Supabase.</p>
+        <h2 style="margin-top: 20px;">Conectando con Supabase...</h2>
     </div>
 
     <div id="pantalla-final" class="hidden">
         <div id="arquetipo-tag" class="arquetipo">CALCULANDO...</div>
-        <h2 style="margin: 0;">TU EDAD MENTAL ES:</h2>
+        <h2 style="margin: 10px 0 0 0;">TU EDAD MENTAL ES:</h2>
         <div id="res-edad" class="numero-final">0</div>
-        <p id="res-descripcion" style="font-weight: bold; margin-bottom: 30px; font-size: 1.1rem;"></p>
+        <p id="res-descripcion" style="font-weight: bold; margin-bottom: 25px;"></p>
         
         <div class="ranking-box">
             <h3 style="margin-top: 0; color: var(--primary);">🏆 TOP 5 MENTES JÓVENES</h3>
             <table>
-                <thead><tr><th>Jugador</th><th>Edad Mental</th></tr></thead>
                 <tbody id="ranking-body"></tbody>
             </table>
         </div>
 
-        <button class="btn" style="background: #25d366; margin-top: 25px;" onclick="compartirWA()">RETAR A UN AMIGO</button>
-        <button class="btn" style="background: transparent; border: 2px solid rgba(255,255,255,0.2); margin-top: 10px;" onclick="location.reload()">VOLVER A JUGAR</button>
+        <button class="btn" style="background: #25d366; margin-top: 20px;" onclick="compartirWA()">COMPARTIR EN WHATSAPP</button>
+        <button class="btn" style="background: transparent; border: 2px solid rgba(255,255,255,0.2);" onclick="location.reload()">REINTENTAR</button>
     </div>
 </div>
 
 <script>
-    // --- CONFIGURACIÓN DE SUPABASE ---
+    // URL CORREGIDA: Se eliminó la 'h' extra
     const SB_URL = "https://yeumdjkijjijkdwcxhxj.supabase.co";
     const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlldW1kamtpamppamtkd2N4aHhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMDQ4MzMsImV4cCI6MjA5MTY4MDgzM30.Cl2HUbxGV5eFut9VQ3-Fx0WtT6oJpx4F_AOfGJ4pdl0";
     const _supabase = supabase.createClient(SB_URL, SB_KEY);
 
-    // --- SET DE 30 PREGUNTAS: VARIADAS, DIVERTIDAS Y PRECISAS ---
     const preguntas = [
         { t: "¿Qué plan suena mejor para un sábado de noche?", o: [{t:"Jugar online o scrollear en TikTok", m:13}, {t:"Juntarme a comer pizza con amigos", m:25}, {t:"Quedarme dormido en el sillón a las 22:00", m:65}] },
         { t: "¿Qué decís cuando algo está muy bueno?", o: [{t:"«Está god» o «Es cine»", m:12}, {t:"«Está tremendo» o «Demás»", m:28}, {t:"«Qué bárbaro» o «Macanudo»", m:70}] },
@@ -228,147 +196,89 @@
         { t: "¿Cómo reaccionás ante un meme nuevo?", o: [{t:"Lo uso hasta que muera el mismo día", m:13}, {t:"Se lo mando a mis amigos por mensaje", m:35}, {t:"Pregunto '¿Quién es este muchacho?'", m:75}] },
         { t: "¿Qué llevás siempre en los bolsillos/mochila?", o: [{t:"El celu y los auriculares", m:14}, {t:"Llaves, billetera y un cargador", m:30}, {t:"Caramelos, pañuelos y algún recibo viejo", m:65}] },
         { t: "¿Cómo te despedís de alguien por mensaje?", o: [{t:"'Chau', 'Nos vemo' o un emoji", m:13}, {t:"'Un abrazo grande, hablamos'", m:35}, {t:"'Saludos a la familia y cuidate mucho'", m:70}] },
-
-        // --- ÚLTIMA TANDA DE PREGUNTAS (NUEVAS) ---
-        { t: "¿Qué hacés si ves que algo está desordenado en tu casa?", o: [{t:"Lo ignoro, ya lo limpiará alguien", m:12}, {t:"Lo ordeno cuando tengo tiempo", m:30}, {t:"No puedo seguir viviendo si no lo limpio YA", m:60}] },
-        { t: "¿Cuál es tu opinión sobre el volumen de la tele/música?", o: [{t:"Al máximo, quiero sentir el bajo", m:15}, {t:"Normal, que se escuche bien", m:30}, {t:"¡Bajá eso que no me deja pensar!", m:75}] },
-        { t: "¿Qué hacés cuando vas a un restaurante?", o: [{t:"Le saco foto al plato antes de probarlo", m:14}, {t:"Miro el precio y pido lo que me gusta", m:35}, {t:"Pido lo de siempre y me quejo del aire", m:65}] },
-        { t: "¿Cómo sabés qué ropa ponerte hoy?", o: [{t:"Uso lo que esté arriba de la silla", m:16}, {t:"Busco algo que combine y esté a la moda", m:28}, {t:"Miro el pronóstico en la tele/diario", m:70}] },
-        { t: "¿Qué sentís cuando escuchás un ruido raro en el auto/casa?", o: [{t:"Subo la música para no escucharlo", m:18}, {t:"Me fijo qué puede ser o busco en YouTube", m:32}, {t:"Llamo al técnico/mecánico de confianza", m:65}] },
-        { t: "¿Cómo guardás tus fotos?", o: [{t:"Están todas en la nube (iCloud/Google)", m:15}, {t:"En carpetas en la computadora", m:35}, {t:"Tengo álbumes físicos o las imprimo", m:75}] },
-        { t: "¿Qué hacés si un aparato tecnológico no funciona?", o: [{t:"Le doy un golpe o lo tiro por ahí", m:14}, {t:"Busco el error en Google o Reddit", m:28}, {t:"Llamo a mi sobrino o a un hijo", m:70}] },
-        { t: "¿Cuál es tu actitud en una fiesta o boliche?", o: [{t:"Lo doy todo en la pista hasta las 6 AM", m:16}, {t:"Bailo un poco y charlo en la barra", m:32}, {t:"Busco una silla y pregunto a qué hora comen", m:72}] },
-        { t: "¿Qué hacés con los cables viejos o cajas de cartón?", o: [{t:"Los tiro apenas dejo de usarlos", m:20}, {t:"Tiro algunos, otros los pierdo", m:35}, {t:"Los guardo 'por las dudas', algún día sirven", m:68}] },
-        { t: "¿Qué tal te llevás con el sol?", o: [{t:"Me encanta estar horas bronceándome", m:15}, {t:"Uso protector y trato de no quemarme", m:30}, {t:"Busco la sombra como si fuera un refugio", m:65}] }
+        { t: "¿Qué hacés si ves algo desordenado?", o: [{t:"Lo ignoro, ya lo limpiarán", m:12}, {t:"Lo ordeno cuando puedo", m:30}, {t:"No puedo estar en paz si no lo limpio", m:60}] },
+        { t: "¿Opinión sobre el volumen de la tele?", o: [{t:"Al máximo, que vibre todo", m:15}, {t:"Normal", m:30}, {t:"¡Bajá eso que me aturde!", m:75}] },
+        { t: "¿Qué hacés en un restaurante?", o: [{t:"Foto al plato primero", m:14}, {t:"Pido lo que me gusta", m:35}, {t:"Pido lo de siempre y me quejo del aire", m:65}] },
+        { t: "¿Cómo elegís tu ropa?", o: [{t:"Lo que esté limpio", m:16}, {t:"Que combine bien", m:28}, {t:"Miro el pronóstico antes", m:70}] },
+        { t: "¿Ruido raro en el auto?", o: [{t:"Subo la radio", m:18}, {t:"Busco en YouTube el ruido", m:32}, {t:"Llamo al mecánico", m:65}] },
+        { t: "¿Cómo guardás tus fotos?", o: [{t:"En la nube", m:15}, {t:"En la compu", m:35}, {t:"Álbumes físicos o las imprimo", m:75}] },
+        { t: "¿Falla la tecnología?", o: [{t:"Le doy un golpe", m:14}, {t:"Busco en Google", m:28}, {t:"Llamo a un sobrino", m:70}] },
+        { t: "¿En una fiesta?", o: [{t:"Bailo hasta las 6", m:16}, {t:"Charlo en la barra", m:32}, {t:"Busco una silla", m:72}] },
+        { t: "¿Cajas de cartón viejas?", o: [{t:"A la basura", m:20}, {t:"Tiro algunas", m:35}, {t:"Las guardo 'por las dudas'", m:68}] },
+        { t: "¿Relación con el sol?", o: [{t:"Me encanta", m:15}, {t:"Uso protector", m:30}, {t:"Busco la sombra siempre", m:65}] }
     ];
 
-    let actual = 0, score = 0, nombreUsuario = "", bloqueado = false;
+    let actual = 0, score = 0, nombreUsuario = "";
 
     function iniciarTest() {
         nombreUsuario = document.getElementById('input-nombre').value.trim();
-        if(nombreUsuario.length < 2) return alert("¡Por favor, ingresá un nombre válido!");
-        
+        if(nombreUsuario.length < 2) return alert("Ingresá un nombre!");
         document.getElementById('pantalla-inicio').classList.add('hidden');
         document.getElementById('pantalla-quiz').classList.remove('hidden');
         cargarPregunta();
     }
 
     function cargarPregunta() {
-        bloqueado = false;
         const p = preguntas[actual];
-        document.getElementById('pregunta-contador').innerText = `PREGUNTA ${actual + 1} DE ${preguntas.length}`;
+        document.getElementById('pregunta-contador').innerText = `PREGUNTA ${actual+1}/30`;
         document.getElementById('pregunta-titulo').innerText = p.t;
-        document.getElementById('progreso-fill').style.width = `${((actual) / preguntas.length) * 100}%`;
-        
-        const contenedor = document.getElementById('opciones-contenedor');
-        contenedor.innerHTML = '';
-
-        p.o.forEach(opt => {
+        document.getElementById('progreso-fill').style.width = `${(actual/30)*100}%`;
+        const cont = document.getElementById('opciones-contenedor');
+        cont.innerHTML = '';
+        p.o.forEach(o => {
             const b = document.createElement('button');
             b.className = 'btn opcion';
-            b.innerText = opt.t;
-            b.onclick = () => { if(!bloqueado) procesarRespuesta(opt.m); };
-            contenedor.appendChild(b);
+            b.innerText = o.t;
+            b.onclick = () => { score+=o.m; actual++; actual<30 ? cargarPregunta() : finalizar(); };
+            cont.appendChild(b);
         });
-    }
-
-    function procesarRespuesta(m) {
-        bloqueado = true; // Evita el doble clic
-        score += m;
-        actual++;
-
-        // Cambio visual del fondo según cómo va respondiendo
-        const promedio = score / actual;
-        if(promedio > 55) document.body.className = 'modo-abuelo';
-        else if(promedio < 17) document.body.className = 'modo-disco';
-        else document.body.className = '';
-
-        if(actual < preguntas.length) {
-            setTimeout(cargarPregunta, 300); // Pequeña pausa para que se vea el clic
-        } else {
-            finalizar();
-        }
     }
 
     async function finalizar() {
         document.getElementById('pantalla-quiz').classList.add('hidden');
         document.getElementById('pantalla-carga').classList.remove('hidden');
-
-        const edadFinal = Math.round(score / preguntas.length);
-
-        // Guardar en Supabase
-        try {
-            await _supabase.from('ranking_edad').insert([{ nombre: nombreUsuario, edad_mental: edadFinal }]);
-        } catch (e) { 
-            console.error("Error al guardar en BD:", e); 
-        }
-
-        mostrarResultados(edadFinal);
+        const edad = Math.round(score/30);
+        
+        const { error } = await _supabase.from('ranking_edad').insert([{ nombre: nombreUsuario, edad_mental: edad }]);
+        if(error) console.error("Error BD:", error.message);
+        
+        mostrarResultados(edad);
     }
 
     async function mostrarResultados(edad) {
         document.getElementById('pantalla-carga').classList.add('hidden');
         document.getElementById('pantalla-final').classList.remove('hidden');
-        document.body.className = "";
+        const resEdad = document.getElementById('res-edad');
+        const tag = document.getElementById('arquetipo-tag');
+        const desc = document.getElementById('res-descripcion');
 
-        const edadElement = document.getElementById('res-edad');
-        const descElement = document.getElementById('res-descripcion');
-        const tagElement = document.getElementById('arquetipo-tag');
+        if(edad < 20) { tag.innerText="🚀 CENTENNIAL"; desc.innerText="Vivís en el futuro."; confetti(); }
+        else if(edad < 45) { tag.innerText="💼 ADULTO"; tag.style.background="#38bdf8"; desc.innerText="Equilibrio total."; }
+        else { tag.innerText="🦖 DINOSAURIO"; tag.style.background="#ef4444"; desc.innerText="Sabiduría pura."; }
 
-        // Asignación de Arquetipos
-        if(edad < 18) {
-            tagElement.innerText = "🚀 ALMA DE CENTENNIAL";
-            descElement.innerText = "Tu mente es joven, rápida y vivís en el futuro. ¡Disfrutá!";
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-        } else if(edad < 40) {
-            tagElement.innerText = "💼 ADULTO INDEPENDIENTE";
-            tagElement.style.background = "#38bdf8";
-            descElement.innerText = "Tenés responsabilidades, pero todavía sabés cómo divertirte.";
-        } else {
-            tagElement.innerText = "🦖 DINOSAURIO SABIO";
-            tagElement.style.background = "#ef4444";
-            tagElement.style.color = "white";
-            descElement.innerText = "Tus rodillas suenan, pero tenés la sabiduría de la experiencia.";
-        }
+        resEdad.innerText = edad;
+        cargarRanking();
+    }
 
-        // Animación fluida de los números
-        let i = 0;
-        const interval = setInterval(() => {
-            if(i >= edad) { 
-                edadElement.innerText = edad; 
-                clearInterval(interval); 
-            } else { 
-                edadElement.innerText = i++; 
-            }
-        }, 25);
+    async function verRankingDirecto() {
+        document.getElementById('pantalla-inicio').classList.add('hidden');
+        document.getElementById('pantalla-final').classList.remove('hidden');
+        document.getElementById('res-edad').innerText = "--";
+        document.getElementById('arquetipo-tag').innerText = "ESPECTADOR";
+        document.getElementById('res-descripcion').innerText = "Viendo el ranking global.";
+        cargarRanking();
+    }
 
-        // Cargar el Top 5 desde Supabase
-        const { data, error } = await _supabase
-            .from('ranking_edad')
-            .select('nombre, edad_mental')
-            .order('edad_mental', { ascending: true })
-            .limit(5);
-        
+    async function cargarRanking() {
+        const { data } = await _supabase.from('ranking_edad').select('*').order('edad_mental', { ascending: true }).limit(5);
         const tbody = document.getElementById('ranking-body');
-        if(error || !data || data.length === 0) {
-            tbody.innerHTML = "<tr><td colspan='2' style='text-align:center;'>No hay datos para mostrar aún.</td></tr>";
-        } else {
-            tbody.innerHTML = data.map((r, index) => `
-                <tr>
-                    <td><span class="rank-pos">#${index+1}</span> ${r.nombre}</td>
-                    <td>${r.edad_mental} años</td>
-                </tr>
-            `).join('');
-        }
+        tbody.innerHTML = data ? data.map((r, i) => `<tr><td><span class="rank-pos">#${i+1}</span> ${r.nombre}</td><td>${r.edad_mental} años</td></tr>`).join('') : "Sin datos";
     }
 
     function compartirWA() {
-        const edad = document.getElementById('res-edad').innerText;
-        const tag = document.getElementById('arquetipo-tag').innerText;
-        const msg = encodeURIComponent(`🕵️‍♂️ Hice el test del Detector de Edad y mi mente es: "${tag}" con ${edad} años.\n\n¿Te animás a ver qué te sale a vos?`);
+        const msg = encodeURIComponent("¡Hice el test de Edad Mental! Mi resultado fue sorprendente. ¿Te animás?");
         window.open(`https://wa.me/?text=${msg}`);
     }
 </script>
-
 </body>
 </html>
